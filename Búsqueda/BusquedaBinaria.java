@@ -1,5 +1,4 @@
 import java.util.Arrays;
-//import java.util.Random;
 import java.util.Scanner;
 public class BusquedaBinaria
 {
@@ -8,28 +7,39 @@ public class BusquedaBinaria
         int[] arrToQuickSort = new int[1000];
         creacionArr(arrToQuickSort);
         System.out.println("Array ordenado con QuickSort:");
-        System.out.println("Antes: " + Arrays.toString(arrToQuickSort));
         int[] arrQuickSort = quickSort(arrToQuickSort);
-        System.out.println("ahora "+ Arrays.toString(arrQuickSort));
+        System.out.println(Arrays.toString(arrQuickSort));
         System.out.println();
         int buscar;
         System.out.println("Introduce tu numero a buscar");
         Scanner leer = new Scanner(System.in);
         buscar = leer.nextInt();
-        System.out.println(busquedaBinaria2(arrToQuickSort,buscar));
+        System.out.println(busquedaBinaria(arrToQuickSort,buscar));
 
     }
 
-    public static void creacionArr(int arrToQuickSort[])
-    {
-
-       for(int i=0; i < 1000; i++)
-       {
-            int generar = (int)(Math.random()*1000);
-            arrToQuickSort[i]= generar;
-       } 
-       
+    public static void creacionArr(int arrToQuickSort[]) {
+        for (int i = 0; i < 1000; i++) {
+            int generar;
+            boolean repetido;
+    
+            do {
+                generar = (int) (Math.random() * 10000);
+                repetido = false;
+    
+                // Verificar si el valor ya existe en el array
+                for (int j = 0; j < i; j++) {
+                    if (arrToQuickSort[j] == generar) {
+                        repetido = true;
+                        break;
+                    }
+                }
+            } while (repetido);
+    
+            arrToQuickSort[i] = generar;
+        }
     }
+    
 
     public static int [] quickSort(int arr[])
     {   
@@ -58,7 +68,6 @@ public class BusquedaBinaria
                 i++;
                 j--;
             }
-            //System.out.println("-" + Arrays.toString(arr));
         } while (i <= j);
 
         if (primero < j)
@@ -69,49 +78,26 @@ public class BusquedaBinaria
         return arr;
     }
 
-    public static int busquedaBinaria2 (int arrToQuickSort[], int buscar)
+    public static int busquedaBinaria (int arrToQuickSort[], int buscar)
     {
         int inicio = 0;
         int fin = arrToQuickSort.length-1;
-        int centro = ((inicio + fin )/2) +1 ;
         boolean termino = false;
 
-        while (termino==false)
-        {
-            if(inicio==fin)
-            {
-                if(arrToQuickSort[fin]==buscar)
-                {
-                    System.out.println("tu numero esta en la poscion: " + fin );
-                    termino = true;
-                    break;
-                }else
-                {
-                    System.out.println("Tu numero no fue encontrado");
-                    termino = true;
-                    break;   
-                }
+        while (!termino) {
+            int centro = (inicio + fin) / 2;
     
-            }
-            if (arrToQuickSort[centro]==buscar)
-            {
-                System.out.println("tu numero esta en la poscion: " + centro );
+            if (arrToQuickSort[centro] == buscar) {
+                System.out.println("Tu número está en la posición: " + centro);
                 termino = true;
-                
-            }
-            if (centro < buscar) 
-            {
+            } else if (inicio == fin) {
+                System.out.println("Tu número no fue encontrado");
+                termino = true;
+            } else if (arrToQuickSort[centro] < buscar) {
                 inicio = centro + 1;
-                centro = ((inicio + fin)/2) +1;
-                
-            }
-            if(centro > buscar)
-            {
+            } else {
                 fin = centro - 1;
-                centro = ((inicio + fin)/2) +1;
-                
             }
-
         }
         System.out.println("fin del programa");
         return  -1;
